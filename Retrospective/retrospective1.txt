@@ -1,0 +1,15 @@
+Positives:
+- The project is going well. We spent a good amount of time on it and made a MVP
+- Scrum board is on point
+- Stay on task during meetings
+- It was good that we did the extra exercises for our sprint review
+- Did outside stuff when we needed it
+
+
+
+Improvements:
+- Have meetings where we sit together and do work in the same place, so we can help each other
+- Do more outside coding to get more practice on difficult concepts
+- Outline and talk through meetings (start concept meeting as we go along the sprint)
+- Set hard deadlines for things
+- Try pair-programming
