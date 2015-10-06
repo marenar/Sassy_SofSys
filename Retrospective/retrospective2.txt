@@ -1,0 +1,13 @@
+Positives
+- Better about check-ins
+- Did more work together and did pair programming
+- Catching up after being gone for a while
+- Keep up with reading, but not so much with exercises
+
+
+
+Improvements
+- ThinkOS book coding is hard
+- Try database system reading questions
+- Start blog
+- Assign point people for each book that we are going through
