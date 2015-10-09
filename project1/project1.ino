@@ -29,12 +29,18 @@ byte saw[] = {
     0xebe, 0xee0, 0xf02, 0xf24, 0xf46, 0xf68, 0xf8a, 0xfac, 0xfce, 0xff0
   };
 int t = 0;//time
-
+int state=0;
 void setup(){
+  Serial.begin(9600);
   //set digital pins 0-7 as outputs
   for (int i=0;i<8;i++){
     pinMode(i,OUTPUT);
   }
+  pinMode(12,INPUT);
+  
+  state = digitalRead(12);
+  if (state == 1){state=20;}
+  if(state == 0){state=40;}
   
   cli();//disable interrupts
   //set timer0 interrupt at 40kHz
@@ -42,7 +48,7 @@ void setup(){
   TCCR0B = 0;// same for TCCR0B
   TCNT0  = 0;//initialize counter value to 0
   // set compare match register for 40khz increments
-  OCR0A = 49;// = (16*10^6) / (40000*8) - 1 (must be <256)
+  OCR0A = state;// = (16*10^6) / (40000*8) - 1 (must be <256)
   // turn on CTC mode
   TCCR0A |= (1 << WGM01);
   // Set CS11 bit for 8 prescaler
@@ -66,8 +72,9 @@ ISR(TIMER0_COMPA_vect){ //40kHz interrupt routine
 }
 
 void loop(){
-  PORTD=byte(127+127*sin(t/100));
+   state = digitalRead(12);
+   Serial.println(state);
+  if (state == HIGH){state=20;}
+  if(state == LOW){state=40;}
+//  PORTD=byte(127+127*sin(t/100));
 }
-
-
-
