@@ -1,3 +1,4 @@
+int t = 0;
 int pushButton1 = 13;
 int pushButton2 = 12;
 int pushButton3 = 11;
