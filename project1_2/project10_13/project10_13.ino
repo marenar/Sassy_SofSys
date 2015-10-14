@@ -1,6 +1,6 @@
-byte sine[] = {127, 134, 142, 150, 158, 166, 173, 181, 188, 195, 201, 207, 213, 219, 224, 229, 234, 238, 241, 245, 247, 250, 251, 252, 253, 254, 253, 252, 251, 250, 247, 245, 241, 238, 234, 229, 224, 219, 213, 207, 201, 195, 188, 181, 173, 166, 158, 150, 142, 134, 127, 119, 111, 103, 95, 87, 80, 72, 65, 58, 52, 46, 40, 34, 29, 24, 19, 15, 12, 8, 6, 3, 2, 1, 0, 0, 0, 1, 2, 3, 6, 8, 12, 15, 19, 24, 29, 34, 40, 46, 52, 58, 65, 72, 80, 87, 95, 103, 111, 119,};
-
-int pushButton = 12;
+int pushButton1 = 13;
+int pushButton2 = 12;
+int pushButton3 = 11;
 int t = 0;
 int wave = 0;
 int waves [2][120] = {{127, 134, 142, 150, 158, 166, 173, 181, 188, 195, 201, 207, 213, 219, 224, 229, 234, 238, 241, 245, 247, 250, 251, 252, 253, 254, 253, 252, 251, 250, 247, 245, 241, 238, 234, 229, 224, 219, 213, 207, 201, 195, 188, 181, 173, 166, 158, 150, 142, 134, 127, 119, 111, 103, 95, 87, 80, 72, 65, 58, 52, 46, 40, 34, 29, 24, 19, 15, 12, 8, 6, 3, 2, 1, 0, 0, 0, 1, 2, 3, 6, 8, 12, 15, 19, 24, 29, 34, 40, 46, 52, 58, 65, 72, 80, 87, 95, 103, 111, 119}, {0x22, 0x44, 0x66, 0x88, 0xaa, 0xcc, 0xee, 0x110, 0x132, 0x154,
@@ -25,27 +25,32 @@ void setup() {
     pinMode(i,OUTPUT);
   }
   // make the pushbutton's pin an input:
-  pinMode(pushButton, INPUT);
+  pinMode(pushButton1, INPUT);
+  pinMode(pushButton2, INPUT);
+  pinMode(pushButton3, INPUT);
   
   cli();//disable interrupts
   //set timer0 interrupt at 40kHz
-  TCCR0A = 0;// set entire TCCR0A register to 0
-  TCCR0B = 0;// same for TCCR0B
-  TCNT0  = 0;//initialize counter value to 0
+  TCCR2A = 0;// set entire TCCR2A register to 0
+  TCCR2B = 0;// same for TCCR2B
+  TCNT2  = 0;//initialize counter value to 0
   // set compare match register for 40khz increments
-  OCR0A = 40;// = (16*10^6) / (40000*8) - 1 (must be <256)
+  OCR2A = 40;// = (16*10^6) / (40000*8) - 1 (must be <256)
   // turn on CTC mode
-  TCCR0A |= (1 << WGM01);
+  TCCR2A |= (1 << WGM21);
   // Set CS11 bit for 8 prescaler
-  TCCR0B |= (1 << CS11); 
+  TCCR2B |= (1 << CS21); 
   // enable timer compare interrupt
-  TIMSK0 |= (1 << OCIE0A);
+  TIMSK2 |= (1 << OCIE2A);
   sei();//enable interrupts
 }
+//A3 = 91
+//G3 = 50
 
-ISR(TIMER0_COMPA_vect){
-  if (t < 99) {
-    PORTD = waves[0][t+(wave*5)]; //sine[t];
+ISR(TIMER2_COMPA_vect){
+  OCR2A = wave;
+  if (t < 120) {
+    PORTD = waves[0][t]; //sine[t];
   } else {
     t = 0;
   }
@@ -55,9 +60,15 @@ ISR(TIMER0_COMPA_vect){
 // the loop routine runs over and over again forever:
 void loop() {
   // read the input pin:
-  int buttonState = digitalRead(pushButton);
-  wave = buttonState;
+  int buttonState1 = digitalRead(pushButton1);
+  int buttonState2 = digitalRead(pushButton2);
+  int buttonState3 = digitalRead(pushButton3);
+  if (buttonState1) wave = 50;
+  if (buttonState2) wave = 91;
+  if (buttonState3) wave = 44;
   // print out the state of the button:
-  Serial.println(buttonState);
+  /*Serial.print(buttonState1);
+  Serial.print(buttonState2);
+  Serial.println(buttonState3);*/
   //delay(1);       // delay in between reads for stability
 }
