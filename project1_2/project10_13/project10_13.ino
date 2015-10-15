@@ -1,8 +1,8 @@
 int t = 0;
-int pushButton1 = 13;
-int pushButton2 = 12;
-int pushButton3 = 11;
-int t = 0;
+int pushButton1 = 12;
+int pushButton2 = 13;
+int pushButton3 = 10;
+int pushButton4 = 11;
 int wave = 0;
 int waves [2][120] = {{127, 134, 142, 150, 158, 166, 173, 181, 188, 195, 201, 207, 213, 219, 224, 229, 234, 238, 241, 245, 247, 250, 251, 252, 253, 254, 253, 252, 251, 250, 247, 245, 241, 238, 234, 229, 224, 219, 213, 207, 201, 195, 188, 181, 173, 166, 158, 150, 142, 134, 127, 119, 111, 103, 95, 87, 80, 72, 65, 58, 52, 46, 40, 34, 29, 24, 19, 15, 12, 8, 6, 3, 2, 1, 0, 0, 0, 1, 2, 3, 6, 8, 12, 15, 19, 24, 29, 34, 40, 46, 52, 58, 65, 72, 80, 87, 95, 103, 111, 119}, {0x22, 0x44, 0x66, 0x88, 0xaa, 0xcc, 0xee, 0x110, 0x132, 0x154,
     0x176, 0x198, 0x1ba, 0x1dc, 0x1fe, 0x220, 0x242, 0x264, 0x286, 0x2a8,
@@ -26,9 +26,9 @@ void setup() {
     pinMode(i,OUTPUT);
   }
   // make the pushbutton's pin an input:
-  pinMode(pushButton1, INPUT);
-  pinMode(pushButton2, INPUT);
-  pinMode(pushButton3, INPUT);
+  pinMode(pushButton1, INPUT_PULLUP);
+  pinMode(pushButton2, INPUT_PULLUP);
+  pinMode(pushButton3, INPUT_PULLUP);
   
   cli();//disable interrupts
   //set timer0 interrupt at 40kHz
@@ -64,12 +64,24 @@ void loop() {
   int buttonState1 = digitalRead(pushButton1);
   int buttonState2 = digitalRead(pushButton2);
   int buttonState3 = digitalRead(pushButton3);
-  if (buttonState1) wave = 50;
-  if (buttonState2) wave = 91;
-  if (buttonState3) wave = 44;
+  int buttonState4 = digitalRead(pushButton4);
+  if (!buttonState1) { 
+    wave = 50;
+  } else if (!buttonState2) {
+    wave = 91;
+  } else if (!buttonState3) { 
+    wave = 44;
+  } else if (!buttonState4) {
+    digitalWrite(pushButton4, HIGH);
+    wave = 120;
+  } else {
+    wave = 200;
+  }
   // print out the state of the button:
-  /*Serial.print(buttonState1);
+  Serial.print(wave);
+  Serial.print(buttonState1);
   Serial.print(buttonState2);
-  Serial.println(buttonState3);*/
+  Serial.print(buttonState3);
+  Serial.println(buttonState4);
   //delay(1);       // delay in between reads for stability
 }
