@@ -37,24 +37,23 @@ void setup(){
   }
   
   cli();//disable interrupts
-  //set timer0 interrupt at 40kHz
-  TCCR0A = 0;// set entire TCCR0A register to 0
-  TCCR0B = 0;// same for TCCR0B
-  TCNT0  = 0;//initialize counter value to 0
-  // set compare match register for 40khz increments
-  OCR0A = 49;// = (16*10^6) / (40000*8) - 1 (must be <256)
+  //set timer2 interrupt at 1600Hz
+  TCCR2A = 0;// set entire TCCR2A register to 0
+  TCCR2B = 0;// same for TCCR2B
+  TCNT2  = 0;//initialize counter value to 0
+  // set compare match register for 1600Hz increments
+  OCR2A = 37;// = (16*10^6) / (1600*8) - 1 (must be <256)
   // turn on CTC mode
-  TCCR0A |= (1 << WGM01);
-  // Set CS11 bit for 8 prescaler
-  TCCR0B |= (1 << CS11); 
+  TCCR2A |= (1 << WGM21);
+  // Set CS21 bit for 8 prescaler
+  TCCR2B |= (1 << CS21);   
   // enable timer compare interrupt
-  TIMSK0 |= (1 << OCIE0A);
-  sei();//enable interrupts
-  
+  TIMSK2 |= (1 << OCIE2A);
+  sei();//allow interrupts
 }
 
-
-ISR(TIMER0_COMPA_vect){ //40kHz interrupt routine
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+ISR(TIMER2_COMPA_vect){ //1600Hz interrupt routine
   if (t < 51) {
     PORTD = sine[t];//send sine wave to DAC, centered around (127/255)*5 = 2.5V
   } else if (t > 50 && t < 99) {
