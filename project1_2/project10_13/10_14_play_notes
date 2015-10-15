@@ -43,7 +43,7 @@ void setup() {
   TCCR2B |= (1 << CS21); 
   // enable timer compare interrupt
   TIMSK2 |= (1 << OCIE2A);
-  sei();//enable interrupts
+  //sei();//enable interrupts
 }
 //A3 = 91
 //G3 = 50
@@ -69,14 +69,14 @@ void loop() {
     wave = 50;
   } else if (!buttonState2) {
     wave = 91;
+    sei();
   } else if (!buttonState3) { 
     wave = 44;
+    sei();
   } else if (!buttonState4) {
-    digitalWrite(pushButton4, HIGH);
     wave = 120;
-  } else {
-    wave = 200;
-  }
+    sei();
+  } else cli();
   // print out the state of the button:
   Serial.print(wave);
   Serial.print(buttonState1);
