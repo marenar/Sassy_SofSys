@@ -1,4 +1,6 @@
-int t = 0;
+//The code for 4 buttons to play 4 notes on the arduino by changing the OCR2A in the interrupt. 
+
+int t = 0; 
 int pushButton1 = 12;
 int pushButton2 = 13;
 int pushButton3 = 10;
