@@ -1,11 +1,17 @@
 //The code for 4 buttons to play 4 notes on the arduino by changing the OCR2A in the interrupt. 
 
-int t = 0; 
+int t = 0; //t is used in the interrupt
+
+//initialize the button pins
 int pushButton1 = 12;
 int pushButton2 = 13;
 int pushButton3 = 10;
 int pushButton4 = 11;
+
+//wave is the value going into the OCR2A, which changes for the notes to change
 int wave = 200;
+
+//waves array for sine waves, we just decide the frequency in the interrupt/loop
 int waves [2][120] = {{127, 134, 142, 150, 158, 166, 173, 181, 188, 195, 201, 207, 213, 219, 224, 229, 234, 238, 241, 245, 247, 250, 251, 252, 253, 254, 253, 252, 251, 250, 247, 245, 241, 238, 234, 229, 224, 219, 213, 207, 201, 195, 188, 181, 173, 166, 158, 150, 142, 134, 127, 119, 111, 103, 95, 87, 80, 72, 65, 58, 52, 46, 40, 34, 29, 24, 19, 15, 12, 8, 6, 3, 2, 1, 0, 0, 0, 1, 2, 3, 6, 8, 12, 15, 19, 24, 29, 34, 40, 46, 52, 58, 65, 72, 80, 87, 95, 103, 111, 119}, {0x22, 0x44, 0x66, 0x88, 0xaa, 0xcc, 0xee, 0x110, 0x132, 0x154,
     0x176, 0x198, 0x1ba, 0x1dc, 0x1fe, 0x220, 0x242, 0x264, 0x286, 0x2a8,
     0x2ca, 0x2ec, 0x30e, 0x330, 0x352, 0x374, 0x396, 0x3b8, 0x3da, 0x3fc,
@@ -24,6 +30,8 @@ int waves [2][120] = {{127, 134, 142, 150, 158, 166, 173, 181, 188, 195, 201, 20
 void setup() {
   // initialize serial communication at 9600 bits per second:
   Serial.begin(9600);
+  
+  //setup output pins
   for (int i=0;i<8;i++){
     pinMode(i,OUTPUT);
   }
@@ -48,8 +56,7 @@ void setup() {
   TIMSK2 |= (1 << OCIE2A);
   sei();//enable interrupts
 }
-//A3 = 91
-//G3 = 50
+
 
 ISR(TIMER2_COMPA_vect){
   OCR2A = wave;
@@ -63,23 +70,25 @@ ISR(TIMER2_COMPA_vect){
 
 // the loop routine runs over and over again forever:
 void loop() {
-  // read the input pin:
+  // read the input from the buttons
   int buttonState1 = digitalRead(pushButton1);
   int buttonState2 = digitalRead(pushButton2);
   int buttonState3 = digitalRead(pushButton3);
   int buttonState4 = digitalRead(pushButton4);
+  
+  //check the button state of each button, low means it's pushed
   if (!buttonState1) {
     // G3
-    wave = 84.5;
+    wave = 84.5; //set the note G3
   } else if (!buttonState2) {
     // A3
-    wave = 75;
+    wave = 75; //set the note A3
   } else if (!buttonState3) {
     // B3
-    wave = 66.9999989;
+    wave = 66.9999989; //set the note B3
   } else if (!buttonState4) {
     // C3
-    wave = 62.9999987;
+    wave = 62.9999987; //set the note C3
   }
   // print out the state of the button:
   Serial.print(wave);
