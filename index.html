@@ -21,21 +21,31 @@
     <section class="main-content">
       <h2>About</h2>
 
-        <p>This will be about our project and our original goals</p>
+        <p>The first project was to build an audio synthesizer. Our team is much more interested in software than hardware, so we decided to find a simple circuit and build it quickly so that we could start writing code. We used an instructables circuit which can be found here <a href="http://www.instructables.com/id/Arduino-Audio-Output/?ALLSTEPS"></a>. We built the circuit in the first two weeks of the project, and then began trying to play notes using the audio synthesizer. </p>
 
-      <h2>The Different Paths We Took</h2>
+      <h2>Different Paths We Took</h2>
 
-        <p>We were interested in...</p>
+        <p> We started by playing a sine wave, sawtooth and square wave. We wanted to change the note’s frequency, which we achieved by modifying the match register. Once we knew that we could play different notes, we decided to try and play several notes in sequence to form a tune. To add more interactivity to our project and to add more technical complexity, we later decided to add buttons to the circuit and to use them like an instrument to play notes. </p>
 
         <h3>Playing One Note: Circuit Building</h3>
 
-          <p>With an arduino, our first goal was to generate sound and output analog voltages. 
+          <p>With an arduino, our first goal was to generate sound and output analog voltages. In particular, we followed the <a href="http://www.instructables.com/id/Arduino-Audio-Output/?ALLSTEPS">instructables</a> directions to create analog waves from the digital pins of the arduino. The general idea is to use the arduino to make a digital synthesizer and be able to make sawtooth and sine waveshapes. The circuit is comprised of a digital to analog converter, due to the fact that arduino only has digital capabilities. The DAC, in particular, takes the numbers and bytes and converts them into oscillating voltages that we measured with an oscilloscope to verify. The R2R ladder (as shown in the circuit picture) takes the incoming digital bits and sums them to produce a voltage. Our particular R2R ladder is 8 bits, and can produce 256 total different voltages from 0 to 5V.
+          <br>
+          <br>
+          Next, there is a DAC buffer, low-pass filter and signal amplitude which protect the signal coming out of the DAC without distorting it heavily. The signal is smoothed out to reduce noise, and then a signal amplitude is added to control the amplitude using a potentiometer. Lastly, the amplifier increases the current of the signal so that a load can be driven, and then a offset makes sureit is oscillating around 0V.
+          <br>
           <br>
           Picture of the circuit:
           <br>
+          <br>
           <img src="img/circuit_audio_synth.jpg"/>
           <br>
+          <br>
+          We created an array with values for a sine wave and sawtooth wave. The waves are passed out using digital pins of the arduino with a timer set to have an interrupt that produces the different frequencies that represent the notes. 
+          <br>
+          <br>
           The code for generating one note from our circuit:
+          <br>
           <br>
           <pre>
             //create array with the values for the sine wave and sawtooth wave
@@ -109,7 +119,7 @@
 
         <h3>Playing Notes with Many Buttons</h3>
 
-          <p>We modified the code we used to play a note with just one button and expanded it to play different notes (different frequencies) for different buttons. We initialize the button pins at the beginning, and the way we were able to change the frequency was through OCR2A in the interrupt, which we set equal to a variable wave. We then changed the wave variable in the loop to be different notes based on the button state for each of the buttons, so if a button was pushed down, that value of wave was assigned to OCR2A, changing the frequency of the note being played. 
+          <p>We modified the code we used to play a note with just one button and expanded it to play different notes (different frequencies) for different buttons. We initialize the button pins at the beginning, and the way we were able to change the frequency was through OCR2A in the interrupt, which we set equal to a variable wave. We then changed the wave variable in the loop to be different notes based on the button state for each of the buttons, so if a button was pushed down, that value of wave was assigned to OCR2A, the complete match register, changing the frequency of the note being played. The four buttons that we are playing, include: G, A, B and C. 
 
             <pre>
               //The code for 4 buttons to play 4 notes on the arduino by changing the OCR2A in the interrupt. 
@@ -219,7 +229,7 @@
 
         <h3>Playing Sequence</h3>
 
-          <p>Once we were able to play one note, and were able to change that note by just changing OCR2A, we wanted to be able to play a song with different notes. We initialized a notes array with values for OCR2A with the desired frequencies of the notes in the song hot cross buns, and just had a delay in between changing the note sent to OCR2A, so the notes would play in sequence and sound like a song!
+          <p>Once we were able to play one note, and were able to change that note by just changing OCR2A, we wanted to be able to play a song with different notes. We initialized a notes array with values for OCR2A with the desired frequencies of the notes in the song hot cross buns, and just had a delay in between changing the note sent to OCR2A, so the notes would play in sequence and sound like a song! The song we chose to play in the sequence notes is hot cross buns. 
             <pre>
               int t = 0;
 
