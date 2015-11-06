@@ -1,0 +1,15 @@
+Positives:
+-THINK OS ALL DONE
+-Made a lot of progress on the project, in terms of what we want to do and getting the data
+-Cool direction for project
+-Did pair-coding
+-Meetings have been productive when we have them
+
+Negatives:
+-Doing more python right now, rather than C
+-General comprehension of C is still iffy
+
+Improvements:
+-Pointers are still iffy, so we should go learn about pointers from th NINJAS
+-Make sure that we have exercises in the backlog, regarding enhancing our knowledge of C
+-Pair-programming is helpful, and we need to do it more
