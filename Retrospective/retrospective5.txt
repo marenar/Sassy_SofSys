@@ -1,0 +1,13 @@
+Positives:
+- Re-evaluated the data structure of redis
+
+Negatives:
+- Hard to meet this sprint
+- JOB INTERVIEWS SUCK!!!
+- Lack of understanding about what is going into redis-server and redis-cli
+- Team Health needs to be checked up on
+
+Improvements:
+- Need to make a better system diagram
+- Spend less time on stuff other than our project
+- Set meeting times more mandatory
